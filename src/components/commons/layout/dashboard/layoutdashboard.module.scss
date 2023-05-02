@@ -1,0 +1,40 @@
+@use '@/styles/index.scss' as s;
+
+.container{
+
+  & :local{
+
+  }
+
+}
+
+.side_nav{
+
+  & :local{
+
+    .logo{
+      padding: 1.2rem;
+      margin: 0 auto;
+      //border: 1px solid red;
+
+
+      img{
+        object-fit: cover;
+        max-width: 10rem;
+      }
+    }
+  }
+}
+
+.top_nav{
+  padding: 0 2rem;
+
+  @include s.media-breakpoint-up(lg){
+    padding: 0 2rem;
+  }
+
+  & :local{
+
+
+  }
+}

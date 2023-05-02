@@ -1,68 +1,84 @@
+/* eslint-disable react/display-name */
+import * as React from 'react';
+import { ReactElement, ReactNode } from 'react';
 import type { AppProps } from 'next/app';
 import ContextWrapper from '@/context';
-import Layout from '@/components/commons/layout';
+import { DashboardLayout } from '@/components/commons/layout';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+
 import createEmotionCache from '@/createEmotoinCache';
-import RouteChangeEvent from '@/util/helpers/RouteChangeEvent';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { SessionProvider } from 'next-auth/react';
+import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from '@mui/system';
 import { CssBaseline } from '@mui/material';
-import ThemeProvider from '@mui/system/ThemeProvider';
 import Head from 'next/head';
-import theme from '@/theme';
+
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+
+import adminTheme from '@/theme/admin-theme';
 import '@global/index.scss';
+import 'simplebar-react/dist/simplebar.min.css';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
+const getRoleLayout = (pathname: string) => {
+  return (page: any) => <DashboardLayout>{page}</DashboardLayout>;
+};
+
+export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
+  Component: NextPageWithLayout;
 }
-
-const event = RouteChangeEvent.GetInstance();
 
 export default function MyApp({
   Component,
   pageProps,
   emotionCache = clientSideEmotionCache,
 }: MyAppProps) {
-  const router = useRouter();
+  const { pathname } = useRouter();
 
-  useEffect(() => {
-    const handleStart = (url: any) => {
-      event.emit('start', url);
-    };
+  const getLayout = getRoleLayout(pathname);
 
-    const handleStop = (url: any) => {
-      event.emit('end', url);
-    };
-
-    router.events.on('routeChangeStart', handleStart);
-    router.events.on('routeChangeComplete', handleStop);
-    router.events.on('routeChangeError', handleStop);
-
-    return () => {
-      router.events.off('routeChangeStart', handleStart);
-      router.events.off('routeChangeComplete', handleStop);
-      router.events.off('routeChangeError', handleStop);
-    };
-  }, [router]);
+  // useNProgress();
 
   return (
-    <ContextWrapper>
-      <CacheProvider value={emotionCache}>
-        <Head>
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
-          <title>Rahove . Portfolio</title>
-        </Head>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
+    <>
+      <SessionProvider session={pageProps.session}>
+        <ContextWrapper>
+          <CacheProvider value={emotionCache}>
+            <Head>
+              <meta
+                name="viewport"
+                content="initial-scale=1, width=device-width"
+              />
+              <title>sms - service</title>
+              <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <ThemeProvider theme={adminTheme}>
+              <CssBaseline />
+              <Toaster
+                position={'top-right'}
+                toastOptions={{
+                  error: {
+                    style: {
+                      border: 'thin solid red',
+                      backgroundColor: '#FFEFEF',
+                    },
+                  },
+                }}
+              />
 
-          <Layout pageProps={pageProps}>
-            <Component {...pageProps} />
-          </Layout>
-        </ThemeProvider>
-      </CacheProvider>
-    </ContextWrapper>
+              {getLayout(<Component {...pageProps} />)}
+            </ThemeProvider>
+          </CacheProvider>
+        </ContextWrapper>
+      </SessionProvider>
+    </>
   );
 }
