@@ -1,0 +1,44 @@
+@use "sass:list";
+
+@mixin margin_padding($property, $args...) {
+
+  //@error "bullshit: #{ $property, length($args)}";
+
+  @if length($args) == 1 {
+
+    #{$property}: calc(#{list.nth($args, 1)} * var(--coef-indent))
+
+  } @else if length($args) == 2 {
+
+    @if type-of( list.nth($args, 1) ) == string {
+      $prop: list.nth($args, 1);
+      $value: list.nth($args, 2);
+
+      @if $prop == top {
+        #{$property}-top: calc(#{$value} * var(--coef-indent));
+      } @else if $prop == bottom {
+        #{$property}-bottom: calc(#{$value} * var(--coef-indent));
+      } @else if $prop == left {
+        #{$property}-left: calc(#{$value} * var(--coef-indent));
+      } @else if $prop == right {
+        #{$property}-right: calc(#{$prop} * var(--coef-indent));
+      } @else if $prop == hor {
+        #{$property}-left: calc(#{$value} * var(--coef-indent));
+        #{$property}-right: calc(#{$value} * var(--coef-indent));
+      } @else if $prop == ver {
+        #{$property}-top: calc(#{$value} * var(--coef-indent));
+        #{$property}-bottom: calc(#{$value} * var(--coef-indent));
+      }
+    } @else if (type-of( list.nth($args, 1)) == number) {
+
+      #{$property}: calc(#{list.nth($args, 1)} * var(--coef-indent)) calc(#{list.nth($args, 2)} * var(--coef-indent))
+    }
+
+  } @else if length($args) == 4 {
+    padding: calc(#{list.nth($args, 1)} * var(--coef-indent)) calc(#{list.nth($args, 2)} * var(--coef-indent)) calc(#{list.nth($args, 3)} * var(--coef-indent)) calc(#{list.nth($args, 4)} * var(--coef-indent))
+
+  } @else {
+    @error "*** bullshit argument #{$args}"
+  }
+
+}

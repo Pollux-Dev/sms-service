@@ -1,0 +1,45 @@
+@use "sass:list";
+@use 'private' as p;
+
+@mixin col-width($from: 1, $to: 65) {
+  grid-column-start: $from;
+  grid-column-end: $to;
+}
+
+@mixin grid-template() {
+  display: grid;
+  grid-template-columns: repeat(64, calc(100% / 64));
+}
+
+
+@mixin margin($args...) {
+  @include p.margin_padding('margin', $args...)
+}
+
+@mixin padding($args...) {
+  @include p.margin_padding('padding', $args...)
+}
+
+
+@mixin width($size) {
+  width: calc(#{$size} * var(--coef-size));
+}
+
+@mixin height($size) {
+  height: calc(#{$size} * var(--coef-size));
+}
+
+@mixin height_width($height, $width) {
+  @if ($height and $width) {
+    height: calc(#{$height} * var(--coef-size));
+    width: calc(#{$width} * var(--coef-size));
+  } @else {
+    @error 'invalid argument for -> height_width( #{$height, $width} ) '
+  }
+}
+
+@mixin max-width($size) {
+  max-width: calc(#{$size} * var(--coef-size));
+}
+
+

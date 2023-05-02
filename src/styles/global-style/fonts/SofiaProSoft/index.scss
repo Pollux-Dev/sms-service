@@ -1,0 +1,29 @@
+@font-face {
+  font-display: swap;
+  font-family: SofiaProSoft;
+  font-style: normal;
+  font-weight: 300;
+  src: local("Sofia Pro Light"), local("Sofia-Pro-Light"),
+  url('./SofiaProSoft-Light.woff2') format("woff2"),
+  url('./SofiaProSoft-Light.woff') format("woff")
+}
+
+@font-face {
+  font-family: SofiaProSoft;
+  src: local('Sofia-pro Regular'), local('Sofia-pro-Regular'),
+  url('./SofiaProSoft-Regular.woff2') format('woff2'),
+  url('./SofiaProSoft-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: SofiaProSoft;
+  font-style: normal;
+  font-weight: 800;
+  src: local("Sofia Pro Bold"), local("Sofia-Pro-Bold"),
+  url('./SofiaProSoft-Bold.woff2') format("woff2"),
+  url('./SofiaProSoft-Bold.woff') format("woff")
+}

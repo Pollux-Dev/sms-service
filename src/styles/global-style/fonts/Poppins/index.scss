@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Poppins Black';
+    src: local('Poppins Black'), local('PoppinsBlack'),
+    url('./poppins-v15-latin-900.woff2') format('woff2'),
+    url('./poppins-v15-latin-900.woff') format('woff'),
+url('./poppins-v15-latin-900.ttf') format('woff'),
+url('./poppins-v15-latin-900.svg') format('woff'),
+url('./poppins-v15-latin-900.eot') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}

@@ -1,0 +1,39 @@
+@font-face {
+  font-display: swap;
+  font-family: SofiaPro;
+  font-style: normal;
+  font-weight: 300;
+  src: local("Sofia Pro Light"), local("Sofia-Pro-Light"),
+  url('./SofiaPro-Light.woff2') format("woff2"),
+  url('./SofiaPro-Light.woff') format("woff")
+}
+
+@font-face {
+  font-family: SofiaPro;
+  src: local('Sofia-pro Regular'), local('Sofia-pro-Regular'),
+  url('./SofiaPro-Regular.woff2') format('woff2'),
+  url('./SofiaPro-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: SofiaPro;
+  font-style: normal;
+  font-weight: 700;
+  src: local("Sofia Pro SemiBold"), local("Sofia-Pro-SemiBold"),
+  url('./SofiaPro-SemiBold.woff2') format("woff2"),
+  url('./SofiaPro-SemiBold.woff') format("woff")
+}
+
+@font-face {
+  font-display: swap;
+  font-family: SofiaPro;
+  font-style: normal;
+  font-weight: 800;
+  src: local("Sofia Pro Bold"), local("Sofia-Pro-Bold"),
+  url('./SofiaPro-Bold.woff2') format("woff2"),
+  url('./SofiaPro-Bold.woff') format("woff")
+}

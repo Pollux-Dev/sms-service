@@ -1,0 +1,43 @@
+
+.container {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  pointer-events: none;
+
+  display: grid;
+  place-items: center;
+  align-content: space-between;
+
+
+
+  & :local {
+
+    .nav_top{
+      width: 100%;
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+
+      //border: 1px solid red;
+      //align-self: start;
+
+      .logo{
+        max-width: 6rem;
+      }
+
+      .meet{
+        font-weight: 400;
+        letter-spacing: .08vmax;
+      }
+
+      .links{
+        display: flex;
+        gap: 2rem;
+      }
+    }
+  }
+
+  //border: thick solid tomato;
+}
+

@@ -1,0 +1,29 @@
+@use '@/styles' as s;
+
+.container {
+  position: relative;
+  width: min-content;
+
+  // @include s.margin(top, 10rem);
+  // @include s.padding(bottom, 8rem);
+
+  & :global {
+
+    .loading_container {
+      position: relative;
+      width: 40px;
+      //height: 50px;
+
+
+      svg {
+        display: grid !important;
+        transform: scale(2) !important;
+      }
+    }
+
+
+    .wrapper {
+
+    }
+  }
+}
