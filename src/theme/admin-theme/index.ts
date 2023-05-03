@@ -29,6 +29,9 @@ export function createTheme() {
     components,
     palette: {
       ...palette,
+      primary: {
+        main: '#0287B1',
+      },
       mode: 'light',
     },
     shadows,

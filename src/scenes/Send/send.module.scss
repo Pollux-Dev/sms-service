@@ -1,0 +1,42 @@
+@use '@/styles/index.scss' as s;
+
+.container{
+  width: 100%;
+  padding: 1.5rem;
+
+
+  // @include s.margin(top, 10rem);
+  // @include s.padding(bottom, 8rem);
+
+  & :local{
+
+    .wrapper{
+
+
+      .tab_header{
+        margin-top: 3rem;
+        border-bottom: 1px solid #e3e3e3;
+
+        .tab{
+          padding: 0 1rem;
+        }
+      }
+
+    }
+  }
+}
+
+.single{
+  max-width: 25rem;
+}
+
+.tabel{
+  //border: 1px solid red;
+
+  & :local{
+
+    .back{
+      max-width: max-content;
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import { SideNav } from './side-nav';
 import { TopNav } from './top-nav';
 
-const SIDE_NAV_WIDTH = 280;
+export const SIDE_NAV_WIDTH = 300;
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -42,7 +42,6 @@ export const Layout = (props: any) => {
 
   return (
     <>
-      <div id="recaptcha-container"></div>
       <TopNav onNavOpen={() => setOpenNav(true)} />
       <SideNav onClose={() => setOpenNav(false)} open={openNav} />
       <LayoutRoot>

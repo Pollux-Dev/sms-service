@@ -34,6 +34,7 @@
     "@mui/material": "5.12.2",
     "clsx": "1.2.1",
     "color2k": "2.0.0",
+    "date-fns": "2.30.0",
     "framer-motion": "^10.12.5",
     "gsap": "3.11.3",
     "lodash.debounce": "^4.0.8",
@@ -43,7 +44,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "2.4.1",
-    "simplebar-react": "3.2.3"
+    "simplebar-react": "3.2.3",
+    "xlsx": "0.18.5"
   },
   "devDependencies": {
     "@commitlint/cli": "17.3.0",

@@ -69,10 +69,21 @@ export function createComponents(config: { palette: PaletteOptions }) {
         checkedIcon: Checked,
       },
     },
+
+    MuiAlert: {
+      styleOverrides: {
+        standardWarning: {
+          border: '1px solid #ffb74d;',
+        },
+        standardInfo: {
+          border: '1px solid #29b6f6;',
+        },
+      },
+    },
+
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '50000px',
           textTransform: 'none',
         },
         sizeSmall: {

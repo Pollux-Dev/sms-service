@@ -9,12 +9,13 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { Scrollbar } from '@/components/scrollbar';
-import { adminPaths, talentPaths } from './config';
+import { adminPaths } from './config';
 import { SideNavItem } from './side-nav-item';
 import s from './layoutdashboard.module.scss';
 import LogoImg from '@/public/vercel.svg';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
+import { SIDE_NAV_WIDTH } from '@/components/commons/layout/dashboard/layout';
 
 export const SideNav = (props: any) => {
   const { data: session } = useSession() as any;
@@ -22,12 +23,6 @@ export const SideNav = (props: any) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
-
-  const paths = session?.user?.isAdmin
-    ? adminPaths
-    : session?.user?.isTalent
-    ? talentPaths
-    : [];
 
   const content = (
     <Scrollbar
@@ -38,25 +33,23 @@ export const SideNav = (props: any) => {
           height: '100%',
         },
         '& .simplebar-scrollbar:before': {
-          background: 'neutral.400',
+          background: 'red',
         },
       }}
     >
-      <Box
+      <Stack
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%', // border: 'thin solid yellow',
+          height: '100%',
         }}
       >
         <Box className={s.logo}>
           <Box component={NextLink} href="/">
             <Image src={LogoImg} alt="app logo" />
-
-            {/*<Logo />*/}
           </Box>
         </Box>
+
         <Divider sx={{ borderColor: 'neutral.700' }} />
+
         <Box
           component="nav"
           sx={{
@@ -74,7 +67,7 @@ export const SideNav = (props: any) => {
               m: 0,
             }}
           >
-            {paths.map((item: any) => {
+            {adminPaths.map((item: any) => {
               const active = item.path ? pathname === item.path : false;
 
               return (
@@ -92,7 +85,7 @@ export const SideNav = (props: any) => {
           </Stack>
         </Box>
         <Divider sx={{ borderColor: 'neutral.700' }} />
-      </Box>
+      </Stack>
     </Scrollbar>
   );
 
@@ -103,9 +96,9 @@ export const SideNav = (props: any) => {
         open
         PaperProps={{
           sx: {
-            backgroundColor: 'neutral.800',
-            color: 'common.white',
-            width: 280,
+            backgroundColor: 'primary.main',
+            // color: 'common.white',
+            width: SIDE_NAV_WIDTH,
           },
         }}
         variant="permanent"
@@ -122,9 +115,8 @@ export const SideNav = (props: any) => {
       open={open}
       PaperProps={{
         sx: {
-          backgroundColor: 'neutral.800',
-          color: 'common.white',
-          width: 280,
+          backgroundColor: 'primary.main',
+          width: SIDE_NAV_WIDTH,
         },
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}

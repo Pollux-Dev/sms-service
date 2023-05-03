@@ -46,14 +46,16 @@ export const SideNavItem = (props: PropsType) => {
           justifyContent: 'flex-start',
           pl: '16px',
           pr: '16px',
-          py: '6px',
+          py: '16px',
           textAlign: 'left',
           width: '100%',
           ...(active && {
-            backgroundColor: 'rgba(255, 255, 255, 0.04)',
+            backgroundColor: 'rgba(255, 255, 255)',
           }),
           '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.04)',
+            backgroundColor: active
+              ? 'rgba(255, 255, 255)'
+              : 'rgba(255, 255, 255, 0.14)',
           },
         }}
         {...linkProps}
@@ -63,7 +65,7 @@ export const SideNavItem = (props: PropsType) => {
             component="span"
             sx={{
               alignItems: 'center',
-              color: 'neutral.400',
+              color: 'white',
               display: 'inline-flex',
               justifyContent: 'center',
               mr: 2,
@@ -78,15 +80,15 @@ export const SideNavItem = (props: PropsType) => {
         <Box
           component="span"
           sx={{
-            color: 'neutral.400',
+            color: 'white',
             flexGrow: 1,
             fontFamily: (theme) => theme.typography.fontFamily,
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: 600,
             lineHeight: '24px',
             whiteSpace: 'nowrap',
             ...(active && {
-              color: 'common.white',
+              color: 'primary.main',
             }),
             ...(disabled && {
               color: 'neutral.500',

@@ -14,16 +14,16 @@ import { CssBaseline } from '@mui/material';
 import Head from 'next/head';
 
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 
 import adminTheme from '@/theme/admin-theme';
 import '@global/index.scss';
 import 'simplebar-react/dist/simplebar.min.css';
+import { useNProgress } from '@/util/hooks';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-const getRoleLayout = (pathname: string) => {
+const getRoleLayout = () => {
   return (page: any) => <DashboardLayout>{page}</DashboardLayout>;
 };
 
@@ -41,11 +41,9 @@ export default function MyApp({
   pageProps,
   emotionCache = clientSideEmotionCache,
 }: MyAppProps) {
-  const { pathname } = useRouter();
+  const getLayout = getRoleLayout();
 
-  const getLayout = getRoleLayout(pathname);
-
-  // useNProgress();
+  useNProgress();
 
   return (
     <>
