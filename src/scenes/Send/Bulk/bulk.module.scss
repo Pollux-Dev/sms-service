@@ -1,0 +1,64 @@
+@use '@/styles/index.scss' as s;
+
+.container{
+  width: 100%;
+  padding: 1.5rem;
+
+
+  // @include s.margin(top, 10rem);
+  // @include s.padding(bottom, 8rem);
+
+  & :local{
+
+    .wrapper{
+
+
+      .tab_header{
+        margin-top: 3rem;
+        border-bottom: 1px solid #e3e3e3;
+
+        .tab{
+          padding: 0 1rem;
+        }
+      }
+
+    }
+  }
+}
+
+
+.bulk{
+  max-width: 25rem;
+
+  .drag_drop{
+
+    background-color: rgba(2, 135, 177, 0.09);
+    border-radius: .5rem;
+    padding: 3rem;
+
+    .or {
+      position: relative;
+      width: 100%;
+
+      p {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #e1f1f6;
+        padding: 0 1rem;
+      }
+    }
+  }
+}
+
+.tabel{
+  //border: 1px solid red;
+
+  & :local{
+
+    .back{
+      max-width: max-content;
+    }
+  }
+}

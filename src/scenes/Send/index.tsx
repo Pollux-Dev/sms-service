@@ -3,8 +3,8 @@ import s from './send.module.scss';
 import { Container, Tab, Typography } from '@mui/material';
 import { TabContext, TabList } from '@mui/lab';
 import Single from '@/scenes/Send/Single';
-import Bulk from '@/scenes/Send/Bulk';
 import Head from 'next/head';
+import Bulk from '@/scenes/Send/Bulk';
 
 export const statuses = [
   {
