@@ -33,6 +33,7 @@
     "@mui/lab": "^5.0.0-alpha.128",
     "@mui/material": "5.12.2",
     "@mui/x-date-pickers": "6.3.0",
+    "@prisma/client": "4.13.0",
     "clsx": "1.2.1",
     "color2k": "2.0.0",
     "date-fns": "2.30.0",
@@ -68,6 +69,7 @@
     "lint-staged": "13.2.2",
     "prettier": "2.8.8",
     "sass": "1.56.1",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "prisma": "4.13.0"
   }
 }

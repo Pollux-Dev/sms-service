@@ -12,7 +12,7 @@ import { Scrollbar } from '@/components/scrollbar';
 import { adminPaths } from './config';
 import { SideNavItem } from './side-nav-item';
 import s from './layoutdashboard.module.scss';
-import LogoImg from '@/public/vercel.svg';
+import LogoImg from '@/public/Logo.png';
 import Image from 'next/image';
 import { SIDE_NAV_WIDTH } from '@/components/commons/layout/dashboard/layout';
 

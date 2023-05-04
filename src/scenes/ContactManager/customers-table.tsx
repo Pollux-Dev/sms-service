@@ -73,28 +73,30 @@ export const CustomersTable = (props: any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer: any, index: number) => {
-                const isSelected = selected.includes(customer.id);
+              {items.map((item: any, index: number) => {
+                const isSelected = selected.includes(item.id);
                 const createdAt = format(new Date(), 'dd/MM/yyyy');
 
+                console.log('items: ', item);
+
                 return (
-                  <TableRow hover key={customer.id} selected={isSelected}>
+                  <TableRow hover key={item.id} selected={isSelected}>
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(item.id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(item.id);
                           }
                         }}
                       />
                     </TableCell>
                     <TableCell>{index}</TableCell>
-                    <TableCell>{customer.phone_number}</TableCell>
-                    <TableCell>{customer.category}</TableCell>
-                    <TableCell>{customer.telecom}</TableCell>
+                    <TableCell>{item.phone_number}</TableCell>
+                    <TableCell>{item.category}</TableCell>
+                    <TableCell>{item.telecom}</TableCell>
                     <TableCell>{createdAt}</TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={2}>

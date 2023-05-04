@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./sms.db"
+}
+
+model Account {
+  id           String   @id @default(cuid())
+  phone_number String   @unique
+  category     String
+  createdAt    DateTime @default(now())
+  outbox       OutBox[]
+}
+
+model OutBox {
+  id      String  @id @default(cuid())
+  account Account @relation(fields: [id], references: [id])
+  status  String
+}
