@@ -1,4 +1,3 @@
-import { useRouter } from 'next/navigation';
 import {
   Box,
   Divider,
@@ -10,8 +9,6 @@ import {
   Typography,
 } from '@mui/material';
 import { Reorder } from '@mui/icons-material';
-import { signOut, useSession } from 'next-auth/react';
-import { useAppContext } from '@/context/app';
 import Link from 'next/link';
 
 /*
@@ -30,9 +27,6 @@ type PropsType = {
 
 export const AccountPopover = (props: PropsType) => {
   const { anchorEl, onClose, open } = props;
-  const router = useRouter();
-  const session: any = useSession();
-  const { me } = useAppContext();
 
   return (
     <Popover
@@ -52,9 +46,6 @@ export const AccountPopover = (props: PropsType) => {
         }}
       >
         <Typography variant="overline">Account</Typography>
-        <Typography color="text.secondary" variant="body2">
-          {me?.username}
-        </Typography>
       </Box>
       <Divider />
       <MenuList
@@ -67,7 +58,7 @@ export const AccountPopover = (props: PropsType) => {
           },
         }}
       >
-        <Link href="/dashboard/talent/orders" onClick={() => onClose()}>
+        <Link href="/" onClick={() => onClose()}>
           <MenuItem>
             <ListItemIcon>
               <Reorder fontSize="small" />
@@ -85,18 +76,7 @@ export const AccountPopover = (props: PropsType) => {
 
         <Divider />
 
-        <MenuItem
-          onClick={() => {
-            signOut({
-              redirect: true,
-              callbackUrl: '/auth/login',
-            })
-              .then(() => onClose())
-              .catch(() => onClose());
-          }}
-        >
-          Sign out
-        </MenuItem>
+        <MenuItem>Sign out</MenuItem>
       </MenuList>
     </Popover>
   );

@@ -1,5 +1,10 @@
 import { SvgIcon } from '@mui/material';
-import { DashboardTwoTone, PeopleAltTwoTone } from '@mui/icons-material';
+import {
+  ContactPage,
+  DashboardTwoTone,
+  Outbox,
+  Send,
+} from '@mui/icons-material';
 import React from 'react';
 
 export const adminPaths = [
@@ -17,7 +22,7 @@ export const adminPaths = [
     path: '/send',
     icon: (
       <SvgIcon fontSize="small">
-        <PeopleAltTwoTone />
+        <Send />
       </SvgIcon>
     ),
   },
@@ -26,7 +31,7 @@ export const adminPaths = [
     path: '/contact-manager',
     icon: (
       <SvgIcon fontSize="small">
-        <PeopleAltTwoTone />
+        <ContactPage />
       </SvgIcon>
     ),
   },
@@ -35,7 +40,7 @@ export const adminPaths = [
     path: '/out-box',
     icon: (
       <SvgIcon fontSize="small">
-        <PeopleAltTwoTone />
+        <Outbox />
       </SvgIcon>
     ),
   },

@@ -14,12 +14,9 @@ import { SideNavItem } from './side-nav-item';
 import s from './layoutdashboard.module.scss';
 import LogoImg from '@/public/vercel.svg';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
 import { SIDE_NAV_WIDTH } from '@/components/commons/layout/dashboard/layout';
 
 export const SideNav = (props: any) => {
-  const { data: session } = useSession() as any;
-
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
@@ -31,9 +28,6 @@ export const SideNav = (props: any) => {
         height: '100%', // border: 'thin solid red',
         '& .simplebar-content': {
           height: '100%',
-        },
-        '& .simplebar-scrollbar:before': {
-          background: 'red',
         },
       }}
     >

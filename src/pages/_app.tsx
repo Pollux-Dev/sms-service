@@ -7,7 +7,6 @@ import { DashboardLayout } from '@/components/commons/layout';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 
 import createEmotionCache from '@/createEmotoinCache';
-import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from '@mui/system';
 import { CssBaseline } from '@mui/material';
@@ -47,36 +46,36 @@ export default function MyApp({
 
   return (
     <>
-      <SessionProvider session={pageProps.session}>
-        <ContextWrapper>
-          <CacheProvider value={emotionCache}>
-            <Head>
-              <meta
-                name="viewport"
-                content="initial-scale=1, width=device-width"
-              />
-              <title>sms - service</title>
-              <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <ThemeProvider theme={adminTheme}>
-              <CssBaseline />
-              <Toaster
-                position={'top-right'}
-                toastOptions={{
-                  error: {
-                    style: {
-                      border: 'thin solid red',
-                      backgroundColor: '#FFEFEF',
-                    },
+      {/*<SessionProvider session={pageProps.session}>*/}
+      <ContextWrapper>
+        <CacheProvider value={emotionCache}>
+          <Head>
+            <meta
+              name="viewport"
+              content="initial-scale=1, width=device-width"
+            />
+            <title>sms - service</title>
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <ThemeProvider theme={adminTheme}>
+            <CssBaseline />
+            <Toaster
+              position={'top-right'}
+              toastOptions={{
+                error: {
+                  style: {
+                    border: 'thin solid red',
+                    backgroundColor: '#FFEFEF',
                   },
-                }}
-              />
+                },
+              }}
+            />
 
-              {getLayout(<Component {...pageProps} />)}
-            </ThemeProvider>
-          </CacheProvider>
-        </ContextWrapper>
-      </SessionProvider>
+            {getLayout(<Component {...pageProps} />)}
+          </ThemeProvider>
+        </CacheProvider>
+      </ContextWrapper>
+      {/*</SessionProvider>*/}
     </>
   );
 }
