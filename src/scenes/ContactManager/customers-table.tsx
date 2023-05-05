@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import {
   Box,
   Card,
@@ -39,7 +38,7 @@ export const CustomersTable = (props: any) => {
 
   useEffect(() => {
     if (items.length > 0) {
-      setTHeads([...Object.keys(items[0]), 'createdAt', 'Actions']);
+      setTHeads([...Object.keys(items[0]), 'Actions']);
     }
   }, [props.items]);
 
@@ -75,9 +74,9 @@ export const CustomersTable = (props: any) => {
             <TableBody>
               {items.map((item: any, index: number) => {
                 const isSelected = selected.includes(item.id);
-                const createdAt = format(new Date(), 'dd/MM/yyyy');
+                // const createdAt = format(new Date(), 'dd/MM/yyyy');
 
-                console.log('items: ', item);
+                // console.log('items: ', item);
 
                 return (
                   <TableRow hover key={item.id} selected={isSelected}>
@@ -93,11 +92,10 @@ export const CustomersTable = (props: any) => {
                         }}
                       />
                     </TableCell>
-                    <TableCell>{index}</TableCell>
-                    <TableCell>{item.phone_number}</TableCell>
-                    <TableCell>{item.category}</TableCell>
-                    <TableCell>{item.telecom}</TableCell>
-                    <TableCell>{createdAt}</TableCell>
+                    {/*<TableCell>{index}</TableCell>*/}
+                    {Object.values(item).map((value: any, idx) => (
+                      <TableCell key={idx}>{value}</TableCell>
+                    ))}
                     <TableCell>
                       <Stack direction="row" spacing={2}>
                         <Tooltip title="Edit" placement="top">

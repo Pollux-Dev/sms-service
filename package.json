@@ -5,19 +5,27 @@
   "private": true,
   "author": "rahove thecnology",
   "license": "MIT",
+  "type": "module",
   "keywords": [
     "nextjs",
     "starter",
     "typescript"
   ],
   "scripts": {
-    "dev": "next",
+    "dev": "prisma generate && next",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc --noEmit",
     "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
     "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "prisma:generate": "prisma generate",
+    "prisma:studio": "prisma studio",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:playground": "nodemon --exec ts-node-esm prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "node --loader ts-node/esm prisma/seed.js"
   },
   "lint-staged": {
     "./src/**/*.{ts,js,jsx,tsx}": [
@@ -42,6 +50,7 @@
     "lodash.debounce": "^4.0.8",
     "next": "^13.3.4",
     "next-auth": "4.22.1",
+    "node-fetch": "3.3.1",
     "nprogress": "0.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -67,9 +76,10 @@
     "eslint-plugin-prettier": "4.2.1",
     "husky": "8.0.3",
     "lint-staged": "13.2.2",
+    "nodemon": "2.0.22",
     "prettier": "2.8.8",
+    "prisma": "4.13.0",
     "sass": "1.56.1",
-    "typescript": "5.0.4",
-    "prisma": "4.13.0"
+    "typescript": "5.0.4"
   }
 }

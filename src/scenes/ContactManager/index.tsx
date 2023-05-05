@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import s from './contactmanager.module.scss';
 import {
   Alert,
@@ -15,53 +15,6 @@ import Head from 'next/head';
 import ContactTableView from '@/scenes/ContactManager/ContactTableView';
 import { TextSnippet } from '@mui/icons-material';
 import { read, utils } from 'xlsx';
-
-const userData = [
-  {
-    id: 0,
-    phone_number: 251922630485,
-    category: 'MahibereKidusan',
-    telecom: 'ethio-telecom',
-  },
-  {
-    id: 1,
-    phone_number: 912782649,
-    category: 'MahibereKidusan',
-    telecom: 'ethio-telecom',
-  },
-  {
-    id: 2,
-    phone_number: 911993975,
-    category: 'MahibereKidusan',
-    telecom: 'ethio-telecom',
-  },
-  {
-    id: 3,
-    phone_number: 911614581,
-    category: 'MahibereKidusan',
-    telecom: 'ethio-telecom',
-  },
-  {
-    id: 4,
-    phone_number: 910421839,
-    category: 'MahibereKidusan',
-    telecom: 'ethio-telecom',
-  },
-];
-
-const style = {
-  position: 'absolute' as const,
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
 
 const ContactManager = () => {
   const [open, setOpen] = React.useState(false);
@@ -97,6 +50,18 @@ const ContactManager = () => {
     };
     reader.readAsArrayBuffer(file); // read the uploaded file as array buffer
   };
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch('http://localhost:3000/api/get-contacts');
+      const data = await response.json();
+      console.log('contact - data: ', data);
+
+      if (data?.contacts) {
+        setUserData(data.contacts);
+      }
+    })();
+  }, []);
 
   return (
     <Container maxWidth={'xxl' as any} className={s.container}>
