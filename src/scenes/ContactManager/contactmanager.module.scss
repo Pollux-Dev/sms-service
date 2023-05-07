@@ -19,6 +19,14 @@
 
     }
   }
+
+  .customer_tabel{
+    .error_cell{
+      //color: red;
+      border: 11px solid white;
+      background-color: #d99797;
+    }
+  }
 }
 
 .modal_common {
@@ -35,6 +43,7 @@
 }
 
 .modal_import {
+  @extend .modal_common;
 
   & > :first-child {
     padding: 3rem;
@@ -58,6 +67,8 @@
 }
 
 .modal_edit {
+  @extend .modal_common;
+
   max-width: 35rem;
   width: max-content !important;
   //border: 1px solid red;
@@ -70,15 +81,22 @@
     grid-template-columns: 1fr 1fr;
   }
 
-  button {
+
+  button:not(.content button) {
+    //border: 1px solid blue;
     max-width: 10rem;
     width: 100%;
     margin-left: auto;
   }
 }
 
-.modal_delete{
+.modal_delete {
   max-width: 30rem;
   background-color: white;
 
+}
+
+.modal_add {
+  @extend .modal_edit;
+  background-color: white;
 }

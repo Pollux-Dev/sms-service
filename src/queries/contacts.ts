@@ -3,11 +3,18 @@ import { useEffect } from 'react';
 import { Account } from '@prisma/client';
 import API from '@/lib/API';
 
-const queryFn: QueryFunction<{ contacts: Account[] }, [string]> = async () => {
+const queryFn: QueryFunction<Account[], [string]> = async () => {
   try {
     const response = await API.get('/get-contacts');
 
-    return response.data;
+    // hide the inCorrect property from the response
+    // response.data.contacts.forEach((contact: Account) =>
+    //   Object.defineProperty(contact, 'isCorrect', { enumerable: false }),
+    // );
+
+    console.log('response -----> ', response.data);
+
+    return response.data.contacts;
   } catch (error) {
     console.log('error: ', error);
     throw error;

@@ -17,6 +17,8 @@ import { useEffect, useState } from 'react';
 import { Delete, Edit } from '@mui/icons-material';
 import { Account } from '@prisma/client';
 import { useQueryClient } from '@tanstack/react-query';
+import s from './contactmanager.module.scss';
+import clsx from 'clsx';
 
 type PropsType = {
   onActions: {
@@ -60,7 +62,7 @@ export const CustomersTable = (props: PropsType) => {
     <Card>
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
-          <Table>
+          <Table className={s.customer_tabel}>
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox">
@@ -90,7 +92,12 @@ export const CustomersTable = (props: PropsType) => {
                 // console.log('items: ', item);
 
                 return (
-                  <TableRow hover key={item.id} selected={isSelected}>
+                  <TableRow
+                    hover
+                    key={item.id}
+                    selected={isSelected}
+                    className={clsx([!items[index].isCorrect && s.error_cell])}
+                  >
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
@@ -103,10 +110,16 @@ export const CustomersTable = (props: PropsType) => {
                         }}
                       />
                     </TableCell>
-                    {/*<TableCell>{index}</TableCell>*/}
-                    {Object.values(item).map((value: any, idx) => (
+                    <TableCell>{index}</TableCell>
+                    <TableCell>{item.phone}</TableCell>
+                    <TableCell>{item.category}</TableCell>
+                    <TableCell>{item.serviceProvider}</TableCell>
+                    <TableCell>
+                      {new Date(item.createdAt).toDateString()}
+                    </TableCell>
+                    {/*{Object.values(item).map((value: any, idx) => (
                       <TableCell key={idx}>{value}</TableCell>
-                    ))}
+                    ))}*/}
                     <TableCell>
                       <Stack direction="row" spacing={2}>
                         <Tooltip title="Edit" placement="top">

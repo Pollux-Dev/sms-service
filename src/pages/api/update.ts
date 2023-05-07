@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
+import { isValidPhoneNumber } from 'libphonenumber-js';
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,6 +19,7 @@ export default async function handler(
       category: data.category,
       phone: data.phone,
       serviceProvider: data.serviceProvider,
+      isCorrect: isValidPhoneNumber(String(data.phone), 'ET'),
     },
   });
 

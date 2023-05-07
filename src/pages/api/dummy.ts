@@ -3,12 +3,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import seedData from '../../../prisma/seedData';
 
 type Data = {
-  data: typeof seedData;
+  contacts: typeof seedData;
 };
 
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
-  res.status(200).json({ data: seedData });
+  res.status(200).json({ contacts: seedData });
 }

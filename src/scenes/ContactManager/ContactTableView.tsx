@@ -23,6 +23,8 @@ import API from '@/lib/API';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CONTACTS_REFRESH_KEY } from '@/queries/contacts';
+import { matchIsValidTel, MuiTelInput } from 'mui-tel-input';
+import { AsYouType } from 'libphonenumber-js';
 
 type PropsType = {
   userData: any[];
@@ -58,8 +60,19 @@ function EditModal(props: {
 
   const formik = useFormik({
     enableReinitialize: true,
+    validateOnMount: false,
     initialValues: {
-      phone: selected?.phone,
+      phone: selected?.phone
+        .split('')
+        .reverse()
+        .join('')
+        .slice(0, 9)
+        .split('')
+        .reverse()
+        .join('') /* phone: parsePhoneNumberFromString(
+        selected?.phone || '',
+        'ET',
+      )?.formatNational(),*/,
       category: selected?.category,
       serviceProvider: selected?.serviceProvider,
     },
@@ -70,7 +83,7 @@ function EditModal(props: {
       // todo -> use react-query
       API.post('/update', {
         id: selected?.id,
-        phone: values.phone,
+        phone: values.phone.replaceAll(' ', ''),
         category: values.category,
         serviceProvider: values.serviceProvider,
       })
@@ -107,22 +120,36 @@ function EditModal(props: {
           <br />
 
           <div className={s.content}>
-            <TextField
+            <MuiTelInput
+              label="phone no"
               name="phone"
-              type="text"
-              variant="outlined"
-              placeholder="Phone Number"
-              label="phone"
+              // placeholder={Array(15).fill('_').join(' ')}
               value={formik.values.phone}
-              onChange={formik.handleChange}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Phone />
-                  </InputAdornment>
-                ),
+              onlyCountries={['ET']}
+              defaultCountry="ET"
+              required
+              fullWidth
+              forceCallingCode
+              focusOnSelectCountry
+              onChange={(value, info) => {
+                console.log('value: ', info);
+
+                formik.setFieldValue('phone', value);
               }}
+              error={Boolean(
+                formik.values.phone &&
+                  !matchIsValidTel(formik.values.phone, 'ET'),
+              )}
+              helperText={
+                Boolean(
+                  formik.values.phone &&
+                    !matchIsValidTel(formik.values.phone, 'ET'),
+                )
+                  ? 'phone number is invalid'
+                  : ''
+              }
             />
+
             <TextField
               name="category"
               type="text"

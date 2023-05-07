@@ -7,7 +7,6 @@ import {
   Button,
   Container,
   Input,
-  InputAdornment,
   Modal,
   Stack,
   TextField,
@@ -15,8 +14,7 @@ import {
 } from '@mui/material';
 import Head from 'next/head';
 import ContactTableView from '@/scenes/ContactManager/ContactTableView';
-import { Phone, TextSnippet } from '@mui/icons-material';
-import clsx from 'clsx';
+import { TextSnippet } from '@mui/icons-material';
 import { useContactsQueries } from '@/queries/contacts';
 import { read, utils } from 'xlsx';
 import { useQueryClient } from '@tanstack/react-query';
@@ -24,6 +22,7 @@ import { useFormik } from 'formik';
 import API from '@/lib/API';
 import toast from 'react-hot-toast';
 import { LoadingButton } from '@mui/lab';
+import { matchIsValidTel, MuiTelInput } from 'mui-tel-input';
 
 function ImportBulkModal(props: { open: boolean; onClose: () => void }) {
   const [importedContacts, setImportedContacts] = useState<any[]>([]);
@@ -83,7 +82,7 @@ function ImportBulkModal(props: { open: boolean; onClose: () => void }) {
       aria-labelledby="parent-modal-title"
       aria-describedby="parent-modal-description"
     >
-      <Box className={clsx([s.modal_common, s.modal_import])}>
+      <Box className={s.modal_import}>
         <Stack spacing={4} alignItems="center">
           <TextSnippet fontSize="large" />
 
@@ -133,8 +132,6 @@ function AddSingleContactModal(props: { open: boolean; onClose: () => void }) {
 
   const queryClient = useQueryClient();
 
-  // console.log('isLoading: ', isLoading);
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -173,31 +170,15 @@ function AddSingleContactModal(props: { open: boolean; onClose: () => void }) {
 
   return (
     <Modal open={props.open} onClose={props.onClose}>
-      <Box className={clsx([s.modal_edit, s.modal_common])}>
+      <Box className={s.modal_add}>
         <Stack spacing={4} onSubmit={formik.handleSubmit} component={'form'}>
           <Typography variant="h6" align="center" color="gray">
-            Edit Contact
+            Add Contact
           </Typography>
           <hr />
           <br />
 
           <div className={s.content}>
-            <TextField
-              name="phone"
-              type="text"
-              variant="outlined"
-              // placeholder="Phone Number"
-              label="Phone Number"
-              value={formik.values.phone}
-              onChange={formik.handleChange}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Phone />
-                  </InputAdornment>
-                ),
-              }}
-            />
             <TextField
               name="category"
               type="text"
@@ -215,6 +196,34 @@ function AddSingleContactModal(props: { open: boolean; onClose: () => void }) {
               label="service provider"
               value={formik.values.serviceProvider}
               onChange={formik.handleChange}
+            />
+
+            <MuiTelInput
+              label="phone no"
+              name="phone"
+              // placeholder={Array(15).fill('_').join(' ')}
+              value={formik.values.phone}
+              onlyCountries={['ET']}
+              defaultCountry="ET"
+              required
+              fullWidth
+              forceCallingCode
+              focusOnSelectCountry
+              onChange={(value, info) => {
+                console.log('value: ', info);
+
+                formik.setFieldValue('phone', value);
+              }}
+              error={Boolean(
+                formik.values.phone && !matchIsValidTel(formik.values.phone),
+              )}
+              helperText={
+                Boolean(
+                  formik.values.phone && !matchIsValidTel(formik.values.phone),
+                )
+                  ? 'phone number is invalid'
+                  : ''
+              }
             />
           </div>
 
@@ -240,7 +249,8 @@ const ContactManager = () => {
   const [userData, setUserData] = useState<any[]>([]);
 
   const contactsQuery = useContactsQueries();
-  console.log('contactsQuery: ', contactsQuery.data);
+
+  console.log('contactsQuery: ', userData);
 
   const handleOpen = () => {
     setOpen(true);
@@ -250,8 +260,8 @@ const ContactManager = () => {
   };
 
   useEffect(() => {
-    if (contactsQuery.data?.contacts) {
-      setUserData(contactsQuery.data.contacts);
+    if (contactsQuery.data) {
+      setUserData(contactsQuery.data);
     }
   }, [contactsQuery]);
 

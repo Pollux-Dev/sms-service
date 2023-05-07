@@ -17,6 +17,7 @@ model Account {
   serviceProvider String?
   createdAt       DateTime @default(now())
   outbox          OutBox[]
+  isCorrect       Boolean  @default(true)
 }
 
 model OutBox {

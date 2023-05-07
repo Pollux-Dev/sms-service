@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/lib/prisma';
+import { matchIsValidTel } from 'mui-tel-input';
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,6 +20,7 @@ export default async function handler(
               category: contact.category,
               phone: String(contact.phone_number),
               serviceProvider: contact.telecom,
+              isCorrect: matchIsValidTel(String(contact.phone_number), 'ET'),
             },
           });
         });
