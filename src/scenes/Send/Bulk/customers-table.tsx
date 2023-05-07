@@ -60,10 +60,15 @@ export const CustomersTable = (props: any) => {
                     }}
                   />
                 </TableCell>
+                <TableCell>Id</TableCell>
 
-                {tHeads.map((head: any) => (
+                <TableCell>Phone</TableCell>
+                <TableCell>Category</TableCell>
+                <TableCell>Service Provider</TableCell>
+
+                {/*{tHeads.map((head: any) => (
                   <TableCell key={head}>{head}</TableCell>
-                ))}
+                ))}*/}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -86,9 +91,13 @@ export const CustomersTable = (props: any) => {
                       />
                     </TableCell>
                     <TableCell>{index}</TableCell>
-                    <TableCell>{customer.phone_number}</TableCell>
+                    <TableCell>
+                      {customer.phone_number || customer.phone}
+                    </TableCell>
                     <TableCell>{customer.category}</TableCell>
-                    <TableCell>{customer.telecom}</TableCell>
+                    <TableCell>
+                      {customer.telecom || customer.serviceProvider}
+                    </TableCell>
                     <TableCell>{createdAt}</TableCell>
                   </TableRow>
                 );

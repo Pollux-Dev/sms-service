@@ -2,20 +2,26 @@ import React, { ChangeEvent, useState } from 'react';
 import {
   Alert,
   AlertTitle,
+  Autocomplete,
   Button,
   Input,
   Stack,
+  TextField,
   Typography,
 } from '@mui/material';
-import { FileCopy, TextSnippet } from '@mui/icons-material';
+import { FileCopy } from '@mui/icons-material';
 import { TabPanel } from '@mui/lab';
 import { read, utils } from 'xlsx';
 import ImportedTableView from './ImportedTableView';
 import s from './bulk.module.scss';
+import { useCategoriesQueries, useContactsQueries } from '@/queries/contacts';
 
 const BulkSms = () => {
   const [userData, setUserData] = useState<any[]>();
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [selectedCategories, setSelectCategories] = useState<string[]>([]);
+  const { data: categories } = useCategoriesQueries();
+  const { data: contacts } = useContactsQueries();
 
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target?.files) {
@@ -52,14 +58,62 @@ const BulkSms = () => {
           </Alert>
 
           <Stack spacing={4} alignItems="center" className={s.drag_drop}>
-            <TextSnippet fontSize="large" />
+            <Typography variant="h6">
+              Import Contacts From Contact-List
+            </Typography>
 
-            <Typography variant="h5"> Drag & Drop</Typography>
+            <Stack
+              spacing={3}
+              sx={{ my: '2rem', width: '100%', maxWidth: '20rem' }}
+            >
+              <Autocomplete
+                disablePortal
+                options={categories || []}
+                sx={{ maxWidth: '15rem', width: '100%' }}
+                multiple
+                fullWidth
+                value={selectedCategories}
+                onChange={(event, newValue) => {
+                  setSelectCategories(newValue);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    label="Filter By Categories"
+                    helperText={
+                      selectedCategories.length > 0
+                        ? ''
+                        : 'Select categories to filter contacts'
+                    }
+                  />
+                )}
+              />
+
+              <Button
+                variant="contained"
+                size="large"
+                disabled={selectedCategories.length === 0}
+                onClick={() => {
+                  if (selectedCategories.length > 0) {
+                    const filteredContacts = contacts?.filter((contact) =>
+                      selectedCategories.includes(contact.category),
+                    );
+                    setUserData(filteredContacts);
+                    setActiveStep(1);
+                  }
+                }}
+              >
+                Import
+              </Button>
+            </Stack>
 
             <div className={s.or}>
               <hr />
               <Typography> Or </Typography>
             </div>
+
+            <Typography variant="h6">Import Contacts From File</Typography>
 
             <Input
               inputProps={{

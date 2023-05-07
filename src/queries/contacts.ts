@@ -22,11 +22,37 @@ const queryFn: QueryFunction<Account[], [string]> = async () => {
 };
 
 export const CONTACTS_REFRESH_KEY = 'contacts';
+export const CATEGORIES_REFRESH_KEY = 'categories';
 
 export const useContactsQueries = (refreshKey = CONTACTS_REFRESH_KEY) => {
   const query = useQuery({
     queryKey: [refreshKey],
     queryFn,
+  });
+
+  useEffect(() => {
+    // console.log( 'query hero: ', query.error, query.isLoading, query.data )
+  }, [query]);
+
+  return query;
+};
+
+const queryCategoriesFn: QueryFunction<string[]> = async () => {
+  try {
+    const response = await API.get('/get-categories');
+
+    console.log('queryCategoriesFn response -----> ', response.data);
+
+    return response.data.categories;
+  } catch (error) {
+    console.log('error: ', error);
+    throw error;
+  }
+};
+export const useCategoriesQueries = (refreshKey = CATEGORIES_REFRESH_KEY) => {
+  const query = useQuery({
+    queryKey: [refreshKey],
+    queryFn: queryCategoriesFn,
   });
 
   useEffect(() => {

@@ -51,7 +51,7 @@ const OutBox = () => {
           <Typography variant="h3">Out-Box</Typography>
         </header>
 
-        <OutBoxTableView userData={userData} onBack={() => null} />
+        <OutBoxTableView userData={userData} />
       </Stack>
     </Container>
   );
