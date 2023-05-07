@@ -31,8 +31,6 @@ export const CustomersTable = (props: any) => {
     selected = [],
   } = props;
 
-  console.log('tmepItems: ', items);
-
   useEffect(() => {
     if (items.length > 0) {
       setTHeads([...Object.keys(items[0])]);

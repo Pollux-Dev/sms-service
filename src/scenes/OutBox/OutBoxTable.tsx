@@ -32,7 +32,7 @@ export const OutBoxTable = (props: any) => {
     selected = [],
   } = props;
 
-  console.log('tmepItems: ', items);
+  // console.log('tmepItems: ', items);
 
   useEffect(() => {
     if (items.length > 0) {

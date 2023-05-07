@@ -21,7 +21,7 @@
   }
 }
 
-.modal {
+.modal_common {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -32,8 +32,11 @@
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
   padding: 3rem;
   border-radius: 1rem;
+}
 
-  & > :first-child{
+.modal_import {
+
+  & > :first-child {
     padding: 3rem;
     background-color: rgba(2, 135, 177, 0.09);
     border-radius: 1rem;
@@ -52,4 +55,30 @@
       padding: 0 1rem;
     }
   }
+}
+
+.modal_edit {
+  max-width: 35rem;
+  width: max-content !important;
+  //border: 1px solid red;
+  padding-bottom: 1rem;
+
+  .content {
+    //border: 1px solid red;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  button {
+    max-width: 10rem;
+    width: 100%;
+    margin-left: auto;
+  }
+}
+
+.modal_delete{
+  max-width: 30rem;
+  background-color: white;
+
 }

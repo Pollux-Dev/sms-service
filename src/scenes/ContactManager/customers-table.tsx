@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import {
   Box,
   Card,
@@ -16,8 +15,21 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { useEffect, useState } from 'react';
 import { Delete, Edit } from '@mui/icons-material';
+import { Account } from '@prisma/client';
+import { useQueryClient } from '@tanstack/react-query';
 
-export const CustomersTable = (props: any) => {
+type PropsType = {
+  onActions: {
+    onEdit: {
+      setEditModalOpen: (account: Account) => void;
+    };
+    onDelete: {
+      setDeleteModalOpen: (selected: string) => void;
+    };
+  };
+} & Record<string, any>;
+
+export const CustomersTable = (props: PropsType) => {
   const [tHeads, setTHeads] = useState<any[]>([]);
 
   const {
@@ -34,8 +46,6 @@ export const CustomersTable = (props: any) => {
     selected = [],
   } = props;
 
-  console.log('tmepItems: ', items);
-
   useEffect(() => {
     if (items.length > 0) {
       setTHeads([...Object.keys(items[0]), 'Actions']);
@@ -44,6 +54,7 @@ export const CustomersTable = (props: any) => {
 
   const selectedSome = selected.length > 0 && selected.length < items.length;
   const selectedAll = items.length > 0 && selected.length === items.length;
+  const queryClient = useQueryClient();
 
   return (
     <Card>
@@ -101,7 +112,9 @@ export const CustomersTable = (props: any) => {
                         <Tooltip title="Edit" placement="top">
                           <IconButton
                             onClick={() => {
-                              console.log('Edit');
+                              props.onActions.onEdit.setEditModalOpen({
+                                ...item,
+                              } as any);
                             }}
                           >
                             <Edit />
@@ -110,8 +123,10 @@ export const CustomersTable = (props: any) => {
 
                         <Tooltip title="Delete" placement="top">
                           <IconButton
-                            onClick={() => {
-                              console.log('Edit');
+                            onClick={async () => {
+                              props.onActions.onDelete.setDeleteModalOpen(
+                                item.id,
+                              );
                             }}
                           >
                             <Delete />
@@ -139,6 +154,7 @@ export const CustomersTable = (props: any) => {
   );
 };
 
+/*
 CustomersTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
@@ -152,4 +168,6 @@ CustomersTable.propTypes = {
   rowsPerPage: PropTypes.number,
   selected: PropTypes.array,
   tempItems: PropTypes.array,
+  onActions: PropTypes.any,
 };
+*/
