@@ -23,5 +23,6 @@ model Account {
 model OutBox {
   id      String  @id @default(cuid())
   account Account @relation(fields: [id], references: [id])
-  status  String
+  message String
+  status  String?
 }
