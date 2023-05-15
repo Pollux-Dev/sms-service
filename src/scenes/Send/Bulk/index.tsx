@@ -64,6 +64,8 @@ const BulkSms = () => {
 
             <Stack
               spacing={3}
+              direction="row"
+              alignItems="flex-start"
               sx={{ my: '2rem', width: '100%', maxWidth: '20rem' }}
             >
               <Autocomplete

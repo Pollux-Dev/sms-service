@@ -1,22 +1,8 @@
 import { SvgIcon } from '@mui/material';
-import {
-  ContactPage,
-  DashboardTwoTone,
-  Outbox,
-  Send,
-} from '@mui/icons-material';
+import { ContactPage, Outbox, Send } from '@mui/icons-material';
 import React from 'react';
 
 export const adminPaths = [
-  {
-    title: 'Overview',
-    path: '/',
-    icon: (
-      <SvgIcon fontSize="small">
-        <DashboardTwoTone />
-      </SvgIcon>
-    ),
-  },
   {
     title: 'Send SMS',
     path: '/send',

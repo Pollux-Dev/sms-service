@@ -250,7 +250,7 @@ const ContactManager = () => {
 
   const contactsQuery = useContactsQueries();
 
-  console.log('contactsQuery: ', userData);
+  // console.log('contactsQuery: ', userData);
 
   const handleOpen = () => {
     setOpen(true);
@@ -304,6 +304,7 @@ const ContactManager = () => {
 
         <ContactTableView userData={userData} onBack={() => null} />
 
+        {/* app modals */}
         <ImportBulkModal open={open} onClose={handleClose} />
 
         <AddSingleContactModal

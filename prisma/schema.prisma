@@ -26,3 +26,12 @@ model OutBox {
   message String
   status  String?
 }
+
+model Sent {
+  id         String  @id @default(cuid())
+  // account Account @relation(fields: [id], references: [id])
+  noContacts Int
+  message    String
+  status     String?
+  Category   String
+}
