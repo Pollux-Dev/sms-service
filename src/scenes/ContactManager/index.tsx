@@ -141,6 +141,11 @@ function AddSingleContactModal(props: { open: boolean; onClose: () => void }) {
     },
     validateOnChange: false,
     async onSubmit(values) {
+      if (!matchIsValidTel(values.phone)) {
+        toast.error('invalid phone number');
+        return;
+      }
+
       setIsLoading(true);
 
       // todo -> use react-query

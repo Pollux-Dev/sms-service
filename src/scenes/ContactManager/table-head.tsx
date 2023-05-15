@@ -8,6 +8,7 @@ import {
   TextField,
 } from '@mui/material';
 import { Search } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
 
 const top100Films = [
   { label: 'category', year: 1994 },
@@ -24,37 +25,67 @@ const top100Films = [
   { label: 'category', year: 1993 },
 ];
 
-export const TableHead = () => (
-  <Card sx={{ p: 2 }}>
-    <Stack spacing={2}>
-      {/*<Typography variant="h">Contact List</Typography>*/}
+export const TableHead = ({
+  selectedCategories,
+  setSelectedCategories,
+  userData = [] as any[],
+}: any) => {
+  const [categories, setCategories] = useState<{ label: string }[]>([]);
+  // const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  // const contactsQuery = useContactsQueries();
 
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <OutlinedInput
-          defaultValue=""
-          fullWidth
-          placeholder="Search customer"
-          startAdornment={
-            <InputAdornment position="start">
-              <SvgIcon color="action" fontSize="small">
-                <Search />
-              </SvgIcon>
-            </InputAdornment>
-          }
-          sx={{ maxWidth: '20rem' }}
-        />
+  useEffect(() => {
+    // SET categories from contacts, distinct
+    if (userData) {
+      const categories = userData.map((contact: any) => contact.category);
+      const uniqueCategories = [...new Set(categories)];
+      setCategories(
+        uniqueCategories.map((category) => ({ label: category as string })),
+      );
+    }
+  }, [userData]);
 
-        <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={top100Films}
-          sx={{ width: 300 }}
-          // multiple
-          renderInput={(params) => (
-            <TextField {...params} label="Filter By Category" />
-          )}
-        />
+  console.log('selectedCategories: ', selectedCategories);
+
+  return (
+    <Card sx={{ p: 2 }}>
+      <Stack spacing={2}>
+        {/*<Typography variant="h">Contact List</Typography>*/}
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <OutlinedInput
+            defaultValue=""
+            fullWidth
+            placeholder="Search customer"
+            startAdornment={
+              <InputAdornment position="start">
+                <SvgIcon color="action" fontSize="small">
+                  <Search />
+                </SvgIcon>
+              </InputAdornment>
+            }
+            sx={{ maxWidth: '20rem' }}
+          />
+
+          <Autocomplete
+            multiple
+            disablePortal
+            id="combo-box-demo"
+            options={categories}
+            sx={{ width: 300 }}
+            onChange={(event, newValue) => {
+              setSelectedCategories(newValue as any);
+            }}
+            renderInput={(params) => (
+              <TextField {...params} label="Filter By Category" />
+            )}
+          />
+        </Stack>
       </Stack>
-    </Stack>
-  </Card>
-);
+    </Card>
+  );
+};

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   Alert,
@@ -24,7 +24,6 @@ import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CONTACTS_REFRESH_KEY } from '@/queries/contacts';
 import { matchIsValidTel, MuiTelInput } from 'mui-tel-input';
-import { AsYouType } from 'libphonenumber-js';
 
 type PropsType = {
   userData: any[];
@@ -78,6 +77,11 @@ function EditModal(props: {
     },
     validateOnChange: false,
     async onSubmit(values) {
+      if (!matchIsValidTel(values.phone)) {
+        toast.error('invalid phone number');
+        return;
+      }
+
       setIsLoading(true);
 
       // todo -> use react-query
@@ -278,15 +282,21 @@ type EditModalArg = Account;
 const ContactTableView = ({ userData, onBack }: PropsType) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage, userData);
+
+  const [filteredList, setFilteredList] = useState<Account[]>([]);
+
+  const customers = useCustomers(page, rowsPerPage, filteredList);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
+  const [selectedCategories, setSelectedCategories] = useState<
+    { label: string }[]
+  >([]);
 
   const [editModalOpen, setEditModalOpen] = React.useState<EditModalArg>();
   const [deleteModalOpen, setDeleteModalOpen] =
     React.useState<EditModalArg['id']>();
 
-  // console.log('editModalOpen: ', editModalOpen);
+  console.log('editModalOpen: ', userData, selectedCategories);
 
   const handlePageChange = useCallback((event: any, value: any) => {
     setPage(value);
@@ -299,11 +309,28 @@ const ContactTableView = ({ userData, onBack }: PropsType) => {
     [userData],
   );
 
+  useEffect(() => {
+    if (selectedCategories.length === 0) {
+      setFilteredList(userData);
+      return;
+    }
+
+    const filtered = userData.filter((user) => {
+      return selectedCategories.map((cat) => cat.label).includes(user.category);
+    });
+
+    setFilteredList(filtered);
+  }, [selectedCategories, userData]);
+
   return (
     <Stack spacing={2} className={s.tabel}>
       <Box component="main">
         <Stack spacing={3}>
-          <TableHead />
+          <TableHead
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+            userData={userData}
+          />
           <CustomersTable
             count={userData.length}
             items={customers}

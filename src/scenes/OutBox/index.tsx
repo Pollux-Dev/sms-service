@@ -3,6 +3,7 @@ import { Container, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
 import s from './outbox.module.scss';
 import OutBoxTableView from '@/scenes/OutBox/OutBoxTableView';
+import { useOutBoxQuery } from '@/queries/outbox';
 
 const tempData = [
   {
@@ -39,6 +40,9 @@ const tempData = [
 
 const OutBox = () => {
   const [userData, setUserData] = useState<any[]>(tempData);
+  const { data } = useOutBoxQuery();
+
+  console.log('outbox data', data);
 
   return (
     <Container maxWidth={'xxl' as any} className={s.container}>

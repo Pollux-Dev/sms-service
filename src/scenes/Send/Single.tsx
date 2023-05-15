@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { matchIsValidTel } from 'mui-tel-input';
 import { AsYouType } from 'libphonenumber-js';
 import axios from 'axios';
-import { getUrl } from '@/lib/API';
+import API, { getUrl } from '@/lib/API';
 
 type MappedContact = {
   label: string; // id: string;
@@ -132,24 +132,24 @@ const SingleSms = () => {
             axios
               .get(getUrl(message, phone))
               .then((res) => {
-                axios
-                  .post('/create-outbox', {
-                    message,
-                    phone,
-                    category,
-                  })
+                toast('sms sent');
+
+                API.post('/create-outbox', {
+                  message,
+                  status: 'success',
+                  noContacts: 1,
+                  category,
+                })
                   .then((res) => {
                     console.log('send sms response: ', res.data);
 
-                    toast('sms sent successfully');
+                    toast('outbox created');
                     setLoading(false);
                   })
                   .catch((err) => {
-                    toast.error('failed to send sms');
+                    toast.error('failed to create outbox');
                     setLoading(false);
                   });
-
-                // create the outbox
               })
               .catch((res) => {
                 toast.error('failed to send sms');

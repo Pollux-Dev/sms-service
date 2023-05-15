@@ -15,6 +15,7 @@ import { read, utils } from 'xlsx';
 import ImportedTableView from './ImportedTableView';
 import s from './bulk.module.scss';
 import { useCategoriesQueries, useContactsQueries } from '@/queries/contacts';
+import toast from 'react-hot-toast';
 
 const BulkSms = () => {
   const [userData, setUserData] = useState<any[]>();
@@ -37,11 +38,43 @@ const BulkSms = () => {
       const sheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[sheetName];
       const jsonData = utils.sheet_to_json(worksheet);
-      console.log('jsonData : ', jsonData);
-      if (jsonData.length > 0) {
-        setUserData(jsonData.map((item: any, idx) => ({ id: idx, ...item })));
-        setActiveStep(1);
+
+      if (
+        jsonData.length <= 0 ||
+        typeof jsonData[0] === 'undefined' ||
+        typeof jsonData[0] !== 'object'
+      ) {
+        toast.error('Invalid or Empty file imported', { duration: 4000 });
+        return;
       }
+
+      // check the shape of the data to mach this : {category: string, phone: string, telecom: string}
+
+      const shape = [
+        'category',
+        ['phone_number', 'phone'],
+        ['telecom', 'serviceProvider'],
+      ];
+      const keys = Object.keys(jsonData[0] as any);
+      const isShapeValid = shape.every((key) => {
+        if (Array.isArray(key)) {
+          return key.some((k) => keys.includes(k));
+        }
+        return keys.includes(key);
+      });
+
+      if (!isShapeValid) {
+        toast.error(
+          'Invalid file format, make sure the file content contain category, phone and telecom columns',
+          { duration: 4000 },
+        );
+        return;
+      }
+
+      console.log('jsonData : ', jsonData);
+
+      setUserData(jsonData.map((item: any, idx) => ({ id: idx, ...item })));
+      setActiveStep(1);
     };
     reader.readAsArrayBuffer(file); // read the uploaded file as array buffer
   };

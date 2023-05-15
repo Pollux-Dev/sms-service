@@ -12,7 +12,7 @@ const queryFn: QueryFunction<Account[], [string]> = async () => {
     //   Object.defineProperty(contact, 'isCorrect', { enumerable: false }),
     // );
 
-    console.log('response -----> ', response.data);
+    // console.log('response -----> ', response.data);
 
     return response.data.contacts;
   } catch (error) {
@@ -41,7 +41,7 @@ const queryCategoriesFn: QueryFunction<string[]> = async () => {
   try {
     const response = await API.get('/get-categories');
 
-    console.log('queryCategoriesFn response -----> ', response.data);
+    // console.log('queryCategoriesFn response -----> ', response.data);
 
     return response.data.categories;
   } catch (error) {

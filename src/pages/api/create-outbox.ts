@@ -17,6 +17,7 @@ export default async function handler(
           message: data.message,
           status: data.status,
           noContacts: data.noContacts,
+          category: data.category,
         },
       });
 

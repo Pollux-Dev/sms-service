@@ -3,6 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 export const useSelection = (items = [] as any[]) => {
   const [selected, setSelected] = useState<any[]>([]);
 
+  // console.log('selected: ', selected);
+
   useEffect(() => {
     setSelected([]);
   }, [items]);
