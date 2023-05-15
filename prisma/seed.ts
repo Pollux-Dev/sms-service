@@ -8,7 +8,9 @@ const prisma = new PrismaClient();
 async function main() {
   await prisma.account.deleteMany({});
 
-  const response = await fetch('http://localhost:3000/api/dummy');
+  return;
+
+  /*const response = await fetch('http://localhost:3000/api/dummy');
   const data: unknown = await response.json();
 
   if (
@@ -34,7 +36,7 @@ async function main() {
         isValidPhoneNumber(String(contact.phone_number), 'ET'),
       );
     }
-  }
+  }*/
 
   const count = await prisma.account.count();
   console.log('count: ', count);

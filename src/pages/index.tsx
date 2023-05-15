@@ -1,12 +1,9 @@
-import styles from '@/styles/Home.module.css';
-import { Container, Typography } from '@mui/material';
+import React from 'react';
 
-export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Container maxWidth={'xxl' as any}>
-        <Typography variant="h3">Overview</Typography>
-      </Container>
-    </div>
-  );
-}
+import SendScene from '@/scenes/Send';
+
+const SendSms = () => {
+  return <SendScene />;
+};
+
+export default SendSms;

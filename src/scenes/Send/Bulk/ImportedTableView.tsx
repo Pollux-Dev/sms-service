@@ -113,7 +113,7 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
               };
 
               await axios
-                .get(getUrl(message as string, cu.phone))
+                .get(getUrl(message as string, cu.phone.replaceAll(' ', '')))
                 .then((res) => {
                   sentNo = sentNo++;
                   console.log('sent data: ', res.data);

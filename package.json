@@ -24,7 +24,7 @@
     "prisma:playground": "nodemon --exec ts-node-esm prisma/seed.ts"
   },
   "prisma": {
-    "seed": "node --loader ts-node/esm prisma/seed.js"
+    "seed": "node --loader ts-node/esm prisma/seed.ts"
   },
   "lint-staged": {
     "./src/**/*.{ts,js,jsx,tsx}": [

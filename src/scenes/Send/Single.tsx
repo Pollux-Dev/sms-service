@@ -130,7 +130,7 @@ const SingleSms = () => {
             setLoading(true);
 
             axios
-              .get(getUrl(message, phone))
+              .get(getUrl(message, phone.replaceAll(' ', '')))
               .then((res) => {
                 toast('sms sent');
 
