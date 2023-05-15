@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import s from './bulk.module.scss';
 import { Box, Button, Container, Stack, TextField } from '@mui/material';
@@ -48,11 +48,6 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
 
   const handleRowsPerPageChange = useCallback((event: any) => {
     setRowsPerPage(event.target.value);
-  }, []);
-
-  useEffect(() => {
-    // select all customers
-    // customersSelection.handleSelectAll();
   }, []);
 
   return (
@@ -110,7 +105,7 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
             setIsLoading(true);
             let sentNo = 0;
 
-            for (const customer of customers) {
+            for (const customer of userData) {
               const cu = {
                 phone: customer.phone_number || customer.phone,
                 message,
@@ -142,7 +137,7 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
                 message,
                 status: 'success',
                 noContacts: sentNo,
-                category: customers[0].category,
+                category: userData[0].category,
               })
                 .then((res) => {
                   console.log('create outbox response: ', res.data);
@@ -154,7 +149,7 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
                   toast.error('failed to create outbox');
                   setIsLoading(false);
                 });
-            } else if (sentNo === 0 && customers.length > 0) {
+            } else if (sentNo === 0 && userData.length > 0) {
               toast.error('failed to send sms');
 
               // setIsLoading(false);
