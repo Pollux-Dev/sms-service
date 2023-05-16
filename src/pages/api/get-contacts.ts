@@ -13,7 +13,7 @@ export default async function handler(
 ) {
   const contacts = await prisma.account.findMany({});
 
-  console.log('contact data: ', contacts[0].isCorrect);
+  // console.log('contact data: ', contacts[0].isCorrect);
 
   res.status(200).json({ contacts });
 }
