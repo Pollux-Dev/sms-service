@@ -11,6 +11,9 @@ import { LoadingButton } from '@mui/lab';
 import axios from 'axios';
 import API, { getUrl } from '@/lib/API';
 import toast from 'react-hot-toast';
+import { OUTBOX_REFRESH_KEY } from '@/queries/outbox';
+import { useQueryClient } from '@tanstack/react-query';
+import { formatPhone } from '@/util/helpers';
 
 type PropsType = {
   userData: any[];
@@ -39,8 +42,9 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
   const customersSelection = useSelection(customersIds);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<string>();
+  const queryClient = useQueryClient();
 
-  // console.log('customerSelection: ', customersSelection);
+  // console.log('userData: ', userData);
 
   const handlePageChange = useCallback((event: any, value: any) => {
     setPage(value);
@@ -107,9 +111,9 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
 
             for (const customer of userData) {
               const cu = {
-                phone: customer.phone_number || customer.phone,
+                phone: formatPhone(customer.phone_number || customer.phone),
                 message,
-                category: customer.category,
+                category: customer.category || 'no-category',
               };
 
               await axios
@@ -125,7 +129,7 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
                   setIsLoading(false);
                 });
 
-              console.log('customer: ', customer);
+              console.log('customer: ', cu);
             }
 
             if (sentNo > 0) {
@@ -142,6 +146,7 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
                 .then((res) => {
                   console.log('create outbox response: ', res.data);
                   toast('outbox created successfully');
+                  queryClient.refetchQueries([OUTBOX_REFRESH_KEY]).then();
                   setIsLoading(false);
                 })
                 .catch((err) => {

@@ -15,14 +15,11 @@ export const statuses = [
     label: 'Bulk SMS',
     value: 'bulk',
   },
-  {
-    label: 'Custom SMS',
-    value: 'custom',
-  },
 ];
 
 const Send = () => {
   const [activeStatusTab, setActiveStatusTab] = useState(statuses[0]);
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setActiveStatusTab(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

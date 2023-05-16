@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import fetch from 'node-fetch';
 // import mui from 'mui-tel-input';
-import { isValidPhoneNumber } from 'libphonenumber-js';
 
 const prisma = new PrismaClient();
 
 async function main() {
   await prisma.account.deleteMany({});
+  await prisma.outBox.deleteMany({});
+  await prisma.sent.deleteMany({});
 
   return;
 

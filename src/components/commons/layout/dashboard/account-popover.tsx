@@ -1,15 +1,11 @@
 import {
   Box,
   Divider,
-  ListItemIcon,
-  ListItemText,
   MenuItem,
   MenuList,
   Popover,
   Typography,
 } from '@mui/material';
-import { Reorder } from '@mui/icons-material';
-import Link from 'next/link';
 
 /*
 AccountPopover.propTypes = {
@@ -58,24 +54,6 @@ export const AccountPopover = (props: PropsType) => {
           },
         }}
       >
-        <Link href="/" onClick={() => onClose()}>
-          <MenuItem>
-            <ListItemIcon>
-              <Reorder fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Orders</ListItemText>
-          </MenuItem>
-        </Link>
-
-        {/* <MenuItem >
-          <ListItemIcon>
-            <FollowTheSigns fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Followers</ListItemText>
-        </MenuItem>*/}
-
-        <Divider />
-
         <MenuItem>Sign out</MenuItem>
       </MenuList>
     </Popover>

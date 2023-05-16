@@ -8,6 +8,8 @@ import { matchIsValidTel } from 'mui-tel-input';
 import { AsYouType } from 'libphonenumber-js';
 import axios from 'axios';
 import API, { getUrl } from '@/lib/API';
+import { OUTBOX_REFRESH_KEY } from '@/queries/outbox';
+import { useQueryClient } from '@tanstack/react-query';
 
 type MappedContact = {
   label: string; // id: string;
@@ -24,6 +26,7 @@ const SingleSms = () => {
   const [message, setMessage] = React.useState<string>('');
   const [category, setCategory] = React.useState<string>('');
   const [formError, setFormError] = useState(false);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (selectedContact && selectedContact.label !== '') {
@@ -142,8 +145,8 @@ const SingleSms = () => {
                 })
                   .then((res) => {
                     console.log('send sms response: ', res.data);
-
                     toast('outbox created');
+                    queryClient.refetchQueries([OUTBOX_REFRESH_KEY]).then();
                     setLoading(false);
                   })
                   .catch((err) => {
@@ -152,6 +155,7 @@ const SingleSms = () => {
                   });
               })
               .catch((res) => {
+                console.log('res: ', res);
                 toast.error('failed to send sms');
                 setLoading(false);
               });

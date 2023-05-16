@@ -1,45 +1,11 @@
-import React, { useState } from 'react';
-import { Container, Stack, Typography } from '@mui/material';
+import React from 'react';
+import { Alert, Container, Stack, Typography } from '@mui/material';
 import Head from 'next/head';
 import s from './outbox.module.scss';
 import OutBoxTableView from '@/scenes/OutBox/OutBoxTableView';
 import { useOutBoxQuery } from '@/queries/outbox';
 
-const tempData = [
-  {
-    id: 0,
-    phone_number: 251922630485,
-    category: 'MahibereKidusan',
-    telecom: 'ethio-telecom',
-  },
-  {
-    id: 1,
-    phone_number: 912782649,
-    category: 'MahibereKidusan',
-    telecom: 'ethio-telecom',
-  },
-  {
-    id: 2,
-    phone_number: 911993975,
-    category: 'MahibereKidusan',
-    telecom: 'ethio-telecom',
-  },
-  {
-    id: 3,
-    phone_number: 911614581,
-    category: 'MahibereKidusan',
-    telecom: 'ethio-telecom',
-  },
-  {
-    id: 4,
-    phone_number: 910421839,
-    category: 'MahibereKidusan',
-    telecom: 'ethio-telecom',
-  },
-];
-
 const OutBox = () => {
-  const [userData, setUserData] = useState<any[]>(tempData);
   const { data } = useOutBoxQuery();
 
   console.log('outbox data', data);
@@ -52,10 +18,19 @@ const OutBox = () => {
 
       <Stack spacing={3}>
         <header>
-          <Typography variant="h3">Out-Box</Typography>
+          <Typography variant="h3" gutterBottom>
+            Out-Box
+          </Typography>
         </header>
 
-        <OutBoxTableView userData={userData} />
+        {!data ||
+          (data.length == 0 && (
+            <Alert severity="info">
+              <Typography>You have no outbox yet!</Typography>
+            </Alert>
+          ))}
+
+        {data && data.length > 0 && <OutBoxTableView userData={data} />}
       </Stack>
     </Container>
   );

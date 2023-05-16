@@ -5,6 +5,7 @@
   "private": true,
   "author": "rahove thecnology",
   "license": "MIT",
+  "type": "module",
   "keywords": [
     "nextjs",
     "starter",

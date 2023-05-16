@@ -6,9 +6,10 @@ import { useSelection } from '@/util/hooks';
 import { TabelHead } from './TabelHead';
 import { OutBoxTable } from './OutBoxTable';
 import s from './outbox.module.scss';
+import { Sent } from '.prisma/client';
 
 type PropsType = {
-  userData: any[];
+  userData: Sent[];
 };
 
 const useCustomers = (page: number, rowsPerPage: number, data: any[] = []) => {

@@ -1,10 +1,8 @@
-import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import {
   Box,
   Card,
   Checkbox,
-  Chip,
   Table,
   TableBody,
   TableCell,
@@ -14,13 +12,18 @@ import {
 } from '@mui/material';
 import { Scrollbar } from 'src/components/scrollbar';
 import { useEffect, useState } from 'react';
+import { Sent } from '@prisma/client';
 
-export const OutBoxTable = (props: any) => {
+type PropsType = {
+  items: Sent[];
+} & Record<string, any>;
+
+export const OutBoxTable = (props: PropsType) => {
   const [tHeads, setTHeads] = useState<any[]>([]);
 
   const {
     count = 0,
-    items = [],
+    items = [] as Sent[],
     onDeselectAll,
     onDeselectOne,
     onPageChange = () => null,
@@ -36,7 +39,7 @@ export const OutBoxTable = (props: any) => {
 
   useEffect(() => {
     if (items.length > 0) {
-      setTHeads([...Object.keys(items[0]), 'createdAt', 'Status']);
+      setTHeads([...Object.keys(items[0])]);
     }
   }, [props.items]);
 
@@ -70,32 +73,29 @@ export const OutBoxTable = (props: any) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer: any, index: number) => {
-                const isSelected = selected.includes(customer.id);
+              {items.map((outbox, index: number) => {
+                const isSelected = selected.includes(outbox.id);
                 const createdAt = format(new Date(), 'dd/MM/yyyy');
 
                 return (
-                  <TableRow hover key={customer.id} selected={isSelected}>
+                  <TableRow hover key={outbox.id} selected={isSelected}>
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(outbox.id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(outbox.id);
                           }
                         }}
                       />
                     </TableCell>
                     <TableCell>{index}</TableCell>
-                    <TableCell>{customer.phone_number}</TableCell>
-                    <TableCell>{customer.category}</TableCell>
-                    <TableCell>{customer.telecom}</TableCell>
-                    <TableCell>{createdAt}</TableCell>
-                    <TableCell>
-                      <Chip label="sucess" color="success" />
-                    </TableCell>
+
+                    {Object.values(outbox).map((item) => (
+                      <TableCell key={index}>{item?.toString()}</TableCell>
+                    ))}
                   </TableRow>
                 );
               })}
@@ -114,19 +114,4 @@ export const OutBoxTable = (props: any) => {
       />
     </Card>
   );
-};
-
-OutBoxTable.propTypes = {
-  count: PropTypes.number,
-  items: PropTypes.array,
-  onDeselectAll: PropTypes.func,
-  onDeselectOne: PropTypes.func,
-  onPageChange: PropTypes.func,
-  onRowsPerPageChange: PropTypes.func,
-  onSelectAll: PropTypes.func,
-  onSelectOne: PropTypes.func,
-  page: PropTypes.number,
-  rowsPerPage: PropTypes.number,
-  selected: PropTypes.array,
-  tempItems: PropTypes.array,
 };

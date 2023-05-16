@@ -45,32 +45,60 @@ function ImportBulkModal(props: { open: boolean; onClose: () => void }) {
       const jsonData = utils.sheet_to_json(worksheet);
       console.log('jsonData : ', jsonData);
 
-      if (jsonData.length > 0) {
-        setIsLoading(true);
-
-        setImportedContacts(
-          jsonData.map((item: any, idx) => ({ id: idx, ...item })),
-        );
-
-        API.post('/create-many', {
-          contacts: jsonData,
-        })
-          .then((response) => {
-            console.log('response :', response);
-
-            queryClient.refetchQueries(['contacts']).then(() => {
-              toast.success('creating bulk contact success');
-              setIsLoading(false);
-              props.onClose();
-            });
-          })
-          .catch((err) => {
-            toast.error('adding contact error: ', err.message);
-            setIsLoading(false);
-          });
-
-        // props.onClose();
+      if (
+        jsonData.length <= 0 ||
+        typeof jsonData[0] === 'undefined' ||
+        typeof jsonData[0] !== 'object'
+      ) {
+        toast.error('Invalid or Empty file imported', { duration: 4000 });
+        return;
       }
+
+      const shape = [
+        'category',
+        ['phone_number', 'phone'],
+        ['telecom', 'serviceProvider'],
+      ];
+      const keys = Object.keys(jsonData[0] as any);
+      const isShapeValid = shape.every((key) => {
+        if (Array.isArray(key)) {
+          return key.some((k) => keys.includes(k));
+        }
+        return keys.includes(key);
+      });
+
+      if (!isShapeValid) {
+        toast.error(
+          'Invalid file format, make sure the file content contain category, phone and telecom columns',
+          { duration: 4000 },
+        );
+        return;
+      }
+
+      setIsLoading(true);
+
+      setImportedContacts(
+        jsonData.map((item: any, idx) => ({ id: idx, ...item })),
+      );
+
+      API.post('/create-many', {
+        contacts: jsonData,
+      })
+        .then((response) => {
+          console.log('response :', response);
+
+          queryClient.refetchQueries(['contacts']).then(() => {
+            toast.success('creating bulk contact success');
+            setIsLoading(false);
+            props.onClose();
+          });
+        })
+        .catch((err) => {
+          toast.error('adding contact error: ', err.message);
+          setIsLoading(false);
+        });
+
+      // props.onClose();
     };
     reader.readAsArrayBuffer(file); // read the uploaded file as array buffer
   };

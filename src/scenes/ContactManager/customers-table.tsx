@@ -48,9 +48,16 @@ export const CustomersTable = (props: PropsType) => {
     selected = [],
   } = props;
 
+  console.log('items :', items);
+
   useEffect(() => {
     if (items.length > 0) {
-      setTHeads([...Object.keys(items[0]), 'Actions']);
+      setTHeads([
+        ...Object.keys(items[0]).filter(
+          (key) => key.toLowerCase() !== 'iscorrect',
+        ),
+        'Actions',
+      ]);
     }
   }, [props.items]);
 
