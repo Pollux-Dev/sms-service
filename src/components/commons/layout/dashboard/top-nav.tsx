@@ -84,7 +84,6 @@ export const TopNav = (props: PropsType) => {
                 height: 40,
                 width: 40,
               }}
-              src="/assets/avatars/avatar-anika-visser.png"
             />
           </Stack>
         </Stack>

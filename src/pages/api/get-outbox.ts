@@ -11,7 +11,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
-  const outbox = await prisma.sent.findMany({});
+  const outbox = await prisma.sent.findMany({
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
 
   console.log('out box:  -------', outbox);
 

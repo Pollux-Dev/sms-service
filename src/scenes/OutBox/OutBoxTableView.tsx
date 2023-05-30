@@ -3,7 +3,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Box, Container, Stack } from '@mui/material';
 import { applyPagination } from '@/util/helpers/apply-pagination';
 import { useSelection } from '@/util/hooks';
-import { TabelHead } from './TabelHead';
 import { OutBoxTable } from './OutBoxTable';
 import s from './outbox.module.scss';
 import { Sent } from '.prisma/client';
@@ -48,7 +47,7 @@ const OutBoxTableView = ({ userData }: PropsType) => {
     <Stack spacing={2} className={s.tabel}>
       <Box component="main">
         <Stack spacing={3}>
-          <TabelHead />
+          {/*<TabelHead />*/}
           <OutBoxTable
             count={userData.length}
             items={customers}
