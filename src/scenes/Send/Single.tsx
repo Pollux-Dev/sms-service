@@ -123,7 +123,7 @@ const SingleSms = () => {
           variant="contained"
           type="submit"
           disabled={formError || isLoading || loading || !Boolean(message)}
-          onClick={() => {
+          onClick={async () => {
             // send sms for non-contact client
 
             const phone = (inputValue || selectedContact?.phone) as string;
@@ -132,31 +132,31 @@ const SingleSms = () => {
 
             setLoading(true);
 
-            axios
+            await axios
               .get(getUrl(message, phone.replaceAll(' ', '')))
               .then((res) => {
-                toast('sms sent');
-
-                API.post('/create-outbox', {
-                  message,
-                  status: 'success',
-                  noContacts: 1,
-                  category,
-                })
-                  .then((res) => {
-                    console.log('send sms response: ', res.data);
-                    toast('outbox created');
-                    queryClient.refetchQueries([OUTBOX_REFRESH_KEY]).then();
-                    setLoading(false);
-                  })
-                  .catch((err) => {
-                    toast.error('failed to create outbox');
-                    setLoading(false);
-                  });
+                return toast('sms sent');
               })
               .catch((res) => {
                 console.log('res: ', res);
                 toast.error('failed to send sms');
+                setLoading(false);
+              });
+
+            API.post('/create-outbox', {
+              message,
+              status: 'success',
+              noContacts: 1,
+              category,
+            })
+              .then((res) => {
+                console.log('send sms response: ', res.data);
+                toast('outbox created');
+                queryClient.refetchQueries([OUTBOX_REFRESH_KEY]).then();
+                setLoading(false);
+              })
+              .catch((err) => {
+                toast.error('failed to create outbox');
                 setLoading(false);
               });
           }}

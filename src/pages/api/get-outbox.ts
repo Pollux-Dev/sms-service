@@ -13,5 +13,7 @@ export default async function handler(
 ) {
   const outbox = await prisma.sent.findMany({});
 
+  console.log('out box:  -------', outbox);
+
   res.status(200).json({ outbox });
 }

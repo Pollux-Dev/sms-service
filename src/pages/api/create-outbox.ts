@@ -9,10 +9,10 @@ export default async function handler(
   if (req.method === 'POST') {
     const data = req.body;
 
-    // console.log(' crate-many data: ', data);
+    console.log(' crate-outbox data: ', data);
 
     try {
-      const outbox = prisma.sent.create({
+      const outbox = await prisma.sent.create({
         data: {
           message: data.message,
           status: data.status,
@@ -20,6 +20,8 @@ export default async function handler(
           category: data.category,
         },
       });
+
+      console.log('outbox created -------: ', outbox);
 
       return res.status(200).json({ success: true, data: outbox });
     } catch (error) {

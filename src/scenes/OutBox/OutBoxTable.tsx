@@ -3,6 +3,7 @@ import {
   Box,
   Card,
   Checkbox,
+  Chip,
   Table,
   TableBody,
   TableCell,
@@ -13,6 +14,7 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import { useEffect, useState } from 'react';
 import { Sent } from '@prisma/client';
+import s from './outbox.module.scss';
 
 type PropsType = {
   items: Sent[];
@@ -47,7 +49,7 @@ export const OutBoxTable = (props: PropsType) => {
   const selectedAll = items.length > 0 && selected.length === items.length;
 
   return (
-    <Card>
+    <Card className={s.outbox_table}>
       <Scrollbar>
         <Box sx={{ minWidth: 800 }}>
           <Table>
@@ -75,7 +77,10 @@ export const OutBoxTable = (props: PropsType) => {
             <TableBody>
               {items.map((outbox, index: number) => {
                 const isSelected = selected.includes(outbox.id);
-                const createdAt = format(new Date(), 'dd/MM/yyyy');
+                const createdAt = format(
+                  outbox?.createdAt ? new Date(outbox.createdAt) : new Date(),
+                  'dd/MM/yyyy',
+                );
 
                 return (
                   <TableRow hover key={outbox.id} selected={isSelected}>
@@ -91,11 +96,14 @@ export const OutBoxTable = (props: PropsType) => {
                         }}
                       />
                     </TableCell>
-                    <TableCell>{index}</TableCell>
-
-                    {Object.values(outbox).map((item) => (
-                      <TableCell key={index}>{item?.toString()}</TableCell>
-                    ))}
+                    <TableCell className={s.id}>{outbox.id}</TableCell>
+                    <TableCell>{outbox.noContacts}</TableCell>
+                    <TableCell>{outbox.message}</TableCell>
+                    <TableCell>
+                      <Chip label={outbox.status} color="success" />
+                    </TableCell>
+                    <TableCell>{outbox.category}</TableCell>
+                    <TableCell>{createdAt}</TableCell>
                   </TableRow>
                 );
               })}

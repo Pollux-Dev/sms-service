@@ -119,8 +119,8 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
               await axios
                 .get(getUrl(message as string, cu.phone.replaceAll(' ', '')))
                 .then((res) => {
-                  sentNo = sentNo++;
-                  console.log('sent data: ', res.data);
+                  sentNo = ++sentNo;
+                  console.log('sent data: ', res.data, 'sentNo: ', sentNo);
                   return res.data;
                 })
                 .catch((err) => {
@@ -129,7 +129,7 @@ const ImportedTableView = ({ userData, onBack }: PropsType) => {
                   setIsLoading(false);
                 });
 
-              console.log('customer: ', cu);
+              // sentNo = ++sentNo;
             }
 
             if (sentNo > 0) {

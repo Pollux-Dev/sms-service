@@ -1,15 +1,30 @@
 @use '@/styles/index.scss' as s;
 
-.container{
+.container {
   width: 100%;
 
   // @include s.margin(top, 10rem);
   // @include s.padding(bottom, 8rem);
 
-  & :local{
+  & :local {
 
-    .wrapper{
+    .id {
+      max-width: 5ch;
+    }
 
+
+    .wrapper {
+
+    }
+  }
+}
+
+.outbox_table {
+  & :local {
+
+    .id {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
